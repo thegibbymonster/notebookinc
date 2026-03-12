@@ -7,7 +7,7 @@
   <link rel="icon" href="notebook comix inc..png" type="image/png">
   <style>
     body {
-      font-family: 'comic sans ms', cursive, sans-serif;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
       background: #0f0f23;
       color: #ffeb3b;
       margin: 0;
@@ -16,14 +16,16 @@
     }
     img.logo {
       width: 100%;
-      max-width: 800px; /* caps it so it doesn't nuke mobile, change if you want */
+      max-width: 800px;
       height: auto;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
     }
     h1 {
       font-size: 3.5rem;
       text-shadow: 6px 6px #ff4444;
       margin: 0 0 40px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
     }
     .comic-grid {
       display: flex;
@@ -40,7 +42,7 @@
       padding: 15px;
       width: 320px;
       box-shadow: 0 0 20px rgba(255,235,59,0.5);
-      transition: transform 0.2s;
+      transition: transform 0.25s ease;
     }
     .comic-card:hover {
       transform: scale(1.08);
@@ -48,12 +50,14 @@
     .comic-card img {
       width: 100%;
       border-radius: 10px;
-      border: 3px solid white;
+      border: 3px solid #fff;
+      background: #000;
     }
     .comic-title {
       font-size: 1.5rem;
       margin: 15px 0 10px;
       color: #ffeb3b;
+      line-height: 1.3;
     }
     .read-btn {
       display: inline-block;
@@ -64,6 +68,7 @@
       border-radius: 30px;
       font-size: 1.2rem;
       margin-top: 10px;
+      font-weight: bold;
     }
     .read-btn:hover {
       background: #ff6666;
@@ -71,25 +76,22 @@
   </style>
 </head>
 <body>
-
-  <img src="notebook comix inc..png" alt="notebook inc." class="logo">
-
+  <img src="notebook comix inc..png" alt="notebook inc. logo" class="logo">
   <h1>notebook inc.</h1>
 
   <div class="comic-grid">
     <div class="comic-card">
-      <img src="ascension.png" alt="the ascension">
-      <div class="comic-title">the ascension (not a comic but a cool book written by gibby)</div>
-      <a href="https://www.amazon.com/Ascension-gibson-gibby-major/dp/B0FWTWXK8V/ref=tmm_hrd_swatch_0?_encoding=UTF8&dib_tag=se&dib=eyJ2IjoiMSJ9.Z7CfDLelSrjOAwt93VkLew.EOdSqn2BmGCLRCHV7wwCYqJMwCMtsmodW2FyNwMtDI4&qid=1760796262&sr=1-1" 
-         class="read-btn">buy it now</a>
+      <img src="ascension.png" alt="the ascension comic cover">
+      <div class="comic-title">the ascension<br><small>(written by the CEO )</small></div>
+      <a href="https://www.amazon.com/Ascension-gibson-gibby-major/dp/B0FWTWXK8V" 
+         class="read-btn" target="_blank" rel="noopener noreferrer">buy it now</a>
     </div>
 
     <div class="comic-card">
-      <img src="coming soon.png" alt="coming soon">
+      <img src="coming soon.png" alt="coming soon placeholder">
       <div class="comic-title">coming soon!</div>
       <a href="#" class="read-btn">coming soon!</a>
     </div>
   </div>
-
 </body>
 </html>
