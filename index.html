@@ -5,12 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>notebook inc. (we make books)</title>
   <link rel="icon" href="notebookinc.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Creepster&family=Bangers&display=swap');
-
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
-      font-family: 'Comic Neue', 'Comic Sans MS', cursive;
+      font-family: 'Bangers', cursive;
       background: linear-gradient(45deg, #0f0f23, #ff00aa, #00ffff, #ffff00, #ff4444);
       background-size: 400% 400%;
       animation: rainbowbg 12s ease infinite;
@@ -20,18 +19,16 @@
       text-align: center;
       overflow-x: hidden;
     }
-
     @keyframes rainbowbg {
       0% {background-position:0% 50%}
       50% {background-position:100% 50%}
       100% {background-position:0% 50%}
     }
-
     h1 {
-      font-family: 'Creepster', cursive;
+      font-family: 'Bangers', cursive;
       font-size: 5.5rem;
       color: #ffff00;
-      text-shadow: 
+      text-shadow:
         0 0 10px #ff00aa,
         0 0 20px #00ffff,
         0 0 30px #ff4444,
@@ -42,34 +39,28 @@
       animation: wobble 3s infinite, hue-rotate 6s infinite;
       transform-origin: center;
     }
-
     @keyframes wobble {
       0%,100% { transform: rotate(-3deg); }
-      50%     { transform: rotate(3deg); }
+      50% { transform: rotate(3deg); }
     }
-
     @keyframes hue-rotate {
-      0%   { filter: hue-rotate(0deg); }
+      0% { filter: hue-rotate(0deg); }
       100% { filter: hue-rotate(360deg); }
     }
-
     .logo {
       width: 15%;
       max-width: 3220px;
       animation: bounce 2s infinite, spin-slow 25s linear infinite;
       filter: drop-shadow(0 0 20px #ffff00);
     }
-
     @keyframes bounce {
       0%,100% { transform: translateY(0); }
-      50%     { transform: translateY(-30px); }
+      50% { transform: translateY(-30px); }
     }
-
     @keyframes spin-slow {
       from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
+      to { transform: rotate(360deg); }
     }
-
     .comic-grid {
       display: flex;
       flex-wrap: wrap;
@@ -78,14 +69,13 @@
       max-width: 1400px;
       margin: 0 auto;
     }
-
     .comic-card {
       background: rgba(0,0,0,0.6);
       border: 8px double #ffff00;
       border-radius: 30px;
       padding: 20px;
       width: 360px;
-      box-shadow: 
+      box-shadow:
         0 0 30px #ff00aa,
         inset 0 0 20px #00ffff;
       transform: rotate(2deg);
@@ -93,16 +83,13 @@
       position: relative;
       overflow: hidden;
     }
-
-    .comic-card:nth-child(odd)  { transform: rotate(-4deg); }
+    .comic-card:nth-child(odd) { transform: rotate(-4deg); }
     .comic-card:nth-child(even){ transform: rotate(4deg); }
-
     .comic-card:hover {
       transform: scale(1.15) rotate(0deg) !important;
       box-shadow: 0 0 60px #ffff00;
       z-index: 10;
     }
-
     .comic-card::before {
       content: "✨BOOM✨";
       position: absolute;
@@ -114,23 +101,19 @@
       transition: all 0.4s;
       text-shadow: 0 0 15px #fff;
     }
-
     .comic-card:hover::before { top: 10px; opacity: 1; }
-
     .comic-card img {
       width: 100%;
       border-radius: 20px;
       border: 6px solid #fff;
       background: #000;
-      image-rendering: pixelated; /* extra cursed */
+      image-rendering: pixelated;
       animation: pulse 3s infinite;
     }
-
     @keyframes pulse {
       0%,100% { transform: scale(1); }
-      50%     { transform: scale(1.06); }
+      50% { transform: scale(1.06); }
     }
-
     .comic-title {
       font-family: 'Bangers', cursive;
       font-size: 2.4rem;
@@ -139,7 +122,6 @@
       text-shadow: 4px 4px #ff00aa, -4px -4px #ffff00;
       line-height: 1.2;
     }
-
     .read-btn {
       display: inline-block;
       background: linear-gradient(45deg, #ff4444, #ffff00, #00ffff, #ff00aa);
@@ -153,13 +135,12 @@
       border: 5px solid #fff;
       animation: rainbowbtn 4s infinite, bounce 1.8s infinite;
       text-shadow: 2px 2px #000;
+      font-family: 'Bangers', cursive;
     }
-
     @keyframes rainbowbtn {
       0% {background-position:0% 50%}
       100%{background-position:300% 50%}
     }
-
     .marquee {
       font-size: 3rem;
       color: #ffff00;
@@ -167,49 +148,41 @@
       white-space: nowrap;
       overflow: hidden;
       display: block;
+      font-family: 'Bangers', cursive;
     }
-
     .marquee span {
       display: inline-block;
       padding-left: 100%;
       animation: marquee 18s linear infinite;
       text-shadow: 0 0 10px #ff00aa;
     }
-
     @keyframes marquee {
-      0%   { transform: translateX(0); }
+      0% { transform: translateX(0); }
       100% { transform: translateX(-100%); }
     }
   </style>
 </head>
 <body>
-
   <img src="notebookinc.png" class="logo" alt="notebook inc logo go spinny">
-
   <h1>notebook inc. !!!!!</h1>
-
   <div class="marquee">
     <span>CEO wrote a whole novel • buy it or you're literally unc • the ascension slaps • coming soon gonna be fire • notebook supremacy • we like making books • we hired a chairman finally • we wrote 216 lines of code for your well being 😁 • the news is gonna repeat now, this is the end</span>
   </div>
-
   <div class="comic-grid">
     <div class="comic-card">
       <img src="ascension.png" alt="the ascension comic cover">
       <div class="comic-title">the ascension<br><small>(ceo went crazy with the pen fr)</small></div>
-      <a href="https://www.amazon.com/Ascension-gibson-gibby-major/dp/B0FWTWXK8V" 
+      <a href="https://www.amazon.com/Ascension-gibson-gibby-major/dp/B0FWTWXK8V"
          class="read-btn" target="_blank" rel="noopener noreferrer">BUY IT NOWWW</a>
     </div>
-
     <div class="comic-card">
       <img src="coming soon.png" alt="coming soon placeholder">
       <div class="comic-title">coming soon!<br><small>(trust)</small></div>
       <a href="#" class="read-btn">coming soon babyyyy</a>
     </div>
   </div>
-
   <div class="marquee" style="margin-top:60px;font-size:2.5rem;">
     <span>✨ notebook inc. taking over the world one goofy page at a time ✨&nbsp;&nbsp;&nbsp;</span>
   </div>
-
 </body>
 </html>
