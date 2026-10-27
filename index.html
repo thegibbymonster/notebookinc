@@ -5,187 +5,307 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>notebook inc. (we make books)</title>
   <link rel="icon" href="notebookinc.png" type="image/png">
-  <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --cover: #2b3fd6;
+      --cover-deep: #1b2a9c;
+      --paper: #fffdf6;
+      --ink: #161a3a;
+      --highlight: #ffe14d;
+      --pink: #ff6fb1;
+      --mint: #6dffc4;
+      --ease-pop: cubic-bezier(.3,1.6,.5,1);
+    }
     * { margin:0; padding:0; box-sizing:border-box; }
+    html { background: var(--cover-deep); }
     body {
-      font-family: 'Bangers', cursive;
-      background: linear-gradient(45deg, #0f0f23, #ff00aa, #00ffff, #ffff00, #ff4444);
-      background-size: 400% 400%;
-      animation: rainbowbg 12s ease infinite;
-      color: #fff;
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      color: var(--paper);
       min-height: 100vh;
-      padding: 20px;
-      text-align: center;
+      background: var(--cover);
+      padding: clamp(32px, 6vw, 80px) 24px 96px;
+      display: flex; flex-direction: column; align-items: center;
       overflow-x: hidden;
-    }
-    @keyframes rainbowbg {
-      0% {background-position:0% 50%}
-      50% {background-position:100% 50%}
-      100% {background-position:0% 50%}
-    }
-    h1 {
-      font-family: 'Bangers', cursive;
-      font-size: 5.5rem;
-      color: #ffff00;
-      text-shadow:
-        0 0 10px #ff00aa,
-        0 0 20px #00ffff,
-        0 0 30px #ff4444,
-        6px 6px 0 #000,
-        8px 8px 0 #fff;
-      margin: 20px 0 40px;
-      letter-spacing: 6px;
-      animation: wobble 3s infinite, hue-rotate 6s infinite;
-      transform-origin: center;
-    }
-    @keyframes wobble {
-      0%,100% { transform: rotate(-3deg); }
-      50% { transform: rotate(3deg); }
-    }
-    @keyframes hue-rotate {
-      0% { filter: hue-rotate(0deg); }
-      100% { filter: hue-rotate(360deg); }
-    }
-    .logo {
-      width: 15%;
-      max-width: 3220px;
-      animation: bounce 2s infinite, spin-slow 25s linear infinite;
-      filter: drop-shadow(0 0 20px #ffff00);
-    }
-    @keyframes bounce {
-      0%,100% { transform: translateY(0); }
-      50% { transform: translateY(-30px); }
-    }
-    @keyframes spin-slow {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-    .comic-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 40px;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-    .comic-card {
-      background: rgba(0,0,0,0.6);
-      border: 8px double #ffff00;
-      border-radius: 30px;
-      padding: 20px;
-      width: 360px;
-      box-shadow:
-        0 0 30px #ff00aa,
-        inset 0 0 20px #00ffff;
-      transform: rotate(2deg);
-      transition: all 0.4s;
       position: relative;
-      overflow: hidden;
     }
-    .comic-card:nth-child(odd) { transform: rotate(-4deg); }
-    .comic-card:nth-child(even){ transform: rotate(4deg); }
-    .comic-card:hover {
-      transform: scale(1.15) rotate(0deg) !important;
-      box-shadow: 0 0 60px #ffff00;
-      z-index: 10;
+
+    /* drifting graph paper */
+    .grid {
+      position: fixed; inset: -36px; z-index: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.12) 1px, transparent 1px);
+      background-size: 36px 36px;
+      animation: drift 6s linear infinite;
     }
-    .comic-card::before {
-      content: "✨BOOM✨";
-      position: absolute;
-      top: -40px; left: 50%;
-      transform: translateX(-50%);
-      font-size: 2.5rem;
-      color: #ff4444;
-      opacity: 0;
-      transition: all 0.4s;
-      text-shadow: 0 0 15px #fff;
+    @keyframes drift { to { transform: translate(36px, 36px); } }
+
+    /* floating doodles */
+    .doodles { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+    .doodles svg { position: absolute; width: var(--s, 56px); height: auto; opacity: .9;
+      animation: float var(--d, 9s) ease-in-out infinite; animation-delay: var(--delay, 0s); }
+    @keyframes float {
+      0%,100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+      50% { transform: translateY(-26px) rotate(calc(var(--r, 0deg) + 14deg)); }
     }
-    .comic-card:hover::before { top: 10px; opacity: 1; }
-    .comic-card img {
-      width: 100%;
-      border-radius: 20px;
-      border: 6px solid #fff;
-      background: #000;
-      image-rendering: pixelated;
-      animation: pulse 3s infinite;
+
+    header, main { position: relative; z-index: 1; }
+    header { text-align: center; }
+
+    .logo-btn {
+      background: none; border: 0; cursor: pointer; display: block; margin: 0 auto 18px;
+      animation: drop 1s var(--ease-pop) both, bob 4s ease-in-out 1s infinite;
     }
-    @keyframes pulse {
-      0%,100% { transform: scale(1); }
-      50% { transform: scale(1.06); }
+    .logo-btn img {
+      width: clamp(72px, 9vw, 110px); height: auto; display: block;
+      filter: drop-shadow(0 8px 0 rgba(0,0,0,.18));
+      transition: transform .5s var(--ease-pop);
     }
-    .comic-title {
-      font-family: 'Bangers', cursive;
-      font-size: 2.4rem;
-      margin: 20px 0 15px;
-      color: #00ffff;
-      text-shadow: 4px 4px #ff00aa, -4px -4px #ffff00;
-      line-height: 1.2;
+    .logo-btn:hover img { transform: rotate(-14deg) scale(1.12); }
+    .logo-btn:active img { transform: scale(.9); }
+    @keyframes drop { from { translate: 0 -220px; opacity: 0; } to { translate: 0 0; opacity: 1; } }
+    @keyframes bob { 0%,100% { translate: 0 0; } 50% { translate: 0 -10px; } }
+
+    h1 {
+      font-weight: 800;
+      font-size: clamp(3.2rem, 11vw, 8rem);
+      line-height: .95; letter-spacing: -.04em;
+      display: flex; flex-wrap: wrap; justify-content: center;
     }
-    .read-btn {
-      display: inline-block;
-      background: linear-gradient(45deg, #ff4444, #ffff00, #00ffff, #ff00aa);
-      background-size: 300%;
-      color: #000;
-      padding: 10px 30px;
-      text-decoration: none;
-      border-radius: 50px;
-      font-size: 1.3rem;
-      font-weight: 400;
-      border: 3px solid #fff;
-      animation: rainbowbtn 4s infinite, bounce 1.8s infinite;
-      text-shadow: 1px 1px #000;
-      font-family: 'Bangers', cursive;
-      letter-spacing: 5px;
-      min-width: 180px;
-      white-space: nowrap;
+    h1 .ch {
+      display: inline-block; white-space: pre;
+      animation: letter .7s var(--ease-pop) both;
+      animation-delay: calc(.35s + var(--i) * 55ms);
+      transition: transform .25s var(--ease-pop), color .2s;
+      cursor: default;
     }
-    @keyframes rainbowbtn {
-      0% {background-position:0% 50%}
-      100%{background-position:300% 50%}
+    h1 .ch:hover { transform: translateY(-18px) rotate(-8deg) scale(1.15); color: var(--highlight); }
+    @keyframes letter { from { translate: 0 80px; rotate: 14deg; opacity: 0; } to { translate: 0 0; rotate: 0deg; opacity: 1; } }
+
+    .tag {
+      position: relative; display: inline-block; margin-top: 24px; padding: 6px 18px;
+      color: var(--ink); font-weight: 800; font-size: 1.15rem;
+      transform: rotate(-2deg);
+      animation: stamp .5s var(--ease-pop) 1.3s both;
     }
-    .marquee {
-      font-size: 3rem;
-      color: #ffff00;
-      margin: 40px 0;
-      white-space: nowrap;
-      overflow: hidden;
-      display: block;
-      font-family: 'Bangers', cursive;
+    .tag::before {
+      content: ""; position: absolute; inset: 0; z-index: -1;
+      background: var(--highlight); border-radius: 4px;
+      box-shadow: 4px 4px 0 var(--cover-deep);
+      transform-origin: left; animation: sweep .6s ease-out 1.3s both;
     }
-    .marquee span {
-      display: inline-block;
-      padding-left: 100%;
-      animation: marquee 18s linear infinite;
-      text-shadow: 0 0 10px #ff00aa;
+    @keyframes sweep { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    @keyframes stamp { from { scale: 2.2; opacity: 0; } to { scale: 1; opacity: 1; } }
+
+    main {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: clamp(40px, 7vw, 96px);
+      margin-top: clamp(56px, 9vw, 110px);
+      width: 100%; max-width: 980px;
     }
-    @keyframes marquee {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
+    .book {
+      width: min(100%, 380px);
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      perspective: 900px;
+      animation: rise .9s var(--ease-pop) both;
+      animation-delay: calc(1.5s + var(--n) * .2s);
+    }
+    .book:nth-child(1) { --n: 0; --tilt: -2.5deg; }
+    .book:nth-child(2) { --n: 1; --tilt: 2.5deg; margin-top: clamp(0px, 4vw, 48px); }
+    @keyframes rise { from { translate: 0 140px; opacity: 0; } to { translate: 0 0; opacity: 1; } }
+
+    .sway { width: 100%; display: flex; flex-direction: column; align-items: center;
+      transform: rotate(var(--tilt)); transition: transform .4s var(--ease-pop); }
+    .book:hover .sway, .book:focus-within .sway { transform: rotate(0deg) translateY(-8px); }
+
+    .cover {
+      --rx: 0deg; --ry: 0deg; --gx: 50%; --gy: 50%;
+      position: relative; width: 100%; padding: 14px;
+      background: var(--paper); border-radius: 6px;
+      box-shadow: 0 2px 0 #d9d5c4, 14px 18px 0 var(--cover-deep);
+      transform: rotateX(var(--rx)) rotateY(var(--ry));
+      transition: transform .15s ease-out;
+      transform-style: preserve-3d;
+      overflow: visible;
+    }
+    .cover.leave { transition: transform .6s var(--ease-pop); }
+    .cover::before {
+      content: ""; position: absolute; top: -16px; left: 50%;
+      width: 110px; height: 32px; background: rgba(255,225,77,.88);
+      transform: translateX(-50%) rotate(-3deg);
+      box-shadow: 0 1px 2px rgba(0,0,0,.15);
+      transition: transform .4s var(--ease-pop);
+    }
+    .book:hover .cover::before { transform: translateX(-50%) rotate(4deg) scale(1.1); }
+    .imgwrap { position: relative; overflow: hidden; border-radius: 2px; }
+    .cover img { display: block; width: 100%; height: auto; }
+    .imgwrap::after { /* glare follows pointer */
+      content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0;
+      background: radial-gradient(circle at var(--gx) var(--gy), rgba(255,255,255,.55), transparent 55%);
+      transition: opacity .3s;
+    }
+    .cover:hover .imgwrap::after { opacity: 1; }
+
+    .title {
+      margin-top: 30px; font-weight: 800;
+      font-size: clamp(1.9rem, 4vw, 2.4rem); letter-spacing: -.02em; line-height: 1;
+    }
+    .btn {
+      position: relative; overflow: hidden;
+      margin-top: 20px; display: inline-block; padding: 13px 30px;
+      background: var(--paper); color: var(--ink);
+      font: 800 1.05rem 'Bricolage Grotesque', sans-serif; text-decoration: none;
+      border-radius: 999px; box-shadow: 0 5px 0 var(--ink);
+      transition: transform .15s, box-shadow .15s, background .15s;
+    }
+    .book:nth-child(1) .btn { animation: wiggle 4s ease-in-out 3.5s infinite; }
+    @keyframes wiggle {
+      0%,88%,100% { transform: rotate(0); }
+      91% { transform: rotate(-5deg) scale(1.06); }
+      94% { transform: rotate(5deg) scale(1.06); }
+      97% { transform: rotate(-3deg); }
+    }
+    .btn::after {
+      content: ""; position: absolute; top: 0; left: -80%; width: 50%; height: 100%;
+      background: linear-gradient(100deg, transparent, rgba(255,255,255,.9), transparent);
+      transform: skewX(-20deg);
+    }
+    .btn:hover { background: var(--highlight); transform: translateY(-3px); box-shadow: 0 8px 0 var(--ink); }
+    .btn:hover::after { left: 140%; transition: left .6s ease; }
+    .btn:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--ink); }
+    .btn:focus-visible, .logo-btn:focus-visible { outline: 3px solid var(--highlight); outline-offset: 4px; }
+
+
+
+
+    /* Doctor Duffy: an occasional fly-by */
+    .duffy {
+      position: fixed; left: 0; top: 0; z-index: 3; pointer-events: none;
+      width: clamp(150px, 22vw, 300px); height: auto;
+      display: none; will-change: transform;
+    }
+
+    .bit { position: fixed; z-index: 5; pointer-events: none; width: 10px; height: 14px; border-radius: 2px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
     }
   </style>
 </head>
 <body>
-  <img src="notebookinc.png" class="logo" alt="notebook inc logo go spinny">
-  <h1>notebook inc. !!!!!</h1>
-  <div class="marquee">
-    <span>CEO wrote a whole novel • buy it or you're literally unc • the ascension slaps • coming soon gonna be fire • notebook supremacy • we like making books • we hired a chairman finally • we wrote 216 lines of code for your well being 😁 • the news is gonna repeat now, this is the end</span>
+  <div class="grid"></div>
+  <div class="doodles" aria-hidden="true">
+    <svg viewBox="0 0 50 50" style="left:6%;top:14%;--s:54px;--d:8s;--r:-10deg"><path d="M25 3l6.5 14.5L47 19l-11.5 10.5L39 45 25 36.8 11 45l3.5-15.5L3 19l15.5-1.5z" fill="#ffe14d"/></svg>
+    <svg viewBox="0 0 90 30" style="right:8%;top:10%;--s:96px;--d:11s;--delay:-3s;--r:6deg"><path d="M3 15q10-18 20 0t20 0 20 0 20 0" fill="none" stroke="#6dffc4" stroke-width="5" stroke-linecap="round"/></svg>
+    <svg viewBox="0 0 50 50" style="left:10%;top:62%;--s:44px;--d:10s;--delay:-5s"><circle cx="25" cy="25" r="18" fill="none" stroke="#ff6fb1" stroke-width="6"/></svg>
+    <svg viewBox="0 0 30 90" style="right:5%;top:52%;--s:34px;--d:12s;--delay:-2s;--r:30deg"><path d="M9 4h12v60l-6 22-6-22z" fill="#ffe14d"/><path d="M9 4h12v10H9z" fill="#ff6fb1"/><path d="M12 76l3 10 3-10z" fill="#161a3a"/></svg>
+    <svg viewBox="0 0 50 50" style="left:46%;top:84%;--s:40px;--d:9s;--delay:-6s"><path d="M25 3l6.5 14.5L47 19l-11.5 10.5L39 45 25 36.8 11 45l3.5-15.5L3 19l15.5-1.5z" fill="#ff6fb1"/></svg>
+    <svg viewBox="0 0 50 50" style="right:22%;top:30%;--s:30px;--d:7s;--delay:-1s"><path d="M25 5v40M5 25h40" stroke="#6dffc4" stroke-width="7" stroke-linecap="round"/></svg>
   </div>
-  <div class="comic-grid">
-    <div class="comic-card">
-      <img src="ascension.png" alt="the ascension comic cover">
-      <div class="comic-title">the ascension<br><small>(ceo went crazy with the pen fr)</small></div>
-      <a href="https://www.amazon.com/Ascension-gibson-gibby-major/dp/B0FWTWXK8V"
-         class="read-btn" target="_blank" rel="noopener noreferrer">BUY IT NOWWW</a>
-    </div>
-    <div class="comic-card">
-      <img src="coming soon.png" alt="coming soon placeholder">
-      <div class="comic-title">coming soon!<br><small>(trust)</small></div>
-      <a href="doctorbuffy.png" class="read-btn" target="_blank" rel="noopener noreferrer">sneak peak?</a>
-    </div>
-  </div>
-  <div class="marquee" style="margin-top:60px;font-size:2.5rem;">
-    <span>✨ notebook inc. taking over the world one goofy page at a time ✨  </span>
-  </div>
+
+  <header>
+    <button class="logo-btn" id="logo" aria-label="Celebrate"><img src="notebookinc.png" alt="notebook inc. logo"></button>
+    <h1 id="title" aria-label="notebook inc.">notebook inc.</h1>
+    <p class="tag">we make books</p>
+  </header>
+
+  <main>
+    <section class="book">
+      <div class="sway">
+        <div class="cover"><div class="imgwrap"><img src="ascension.png" alt="The Ascension cover"></div></div>
+        <h2 class="title">The Ascension</h2>
+        <a class="btn" href="https://www.amazon.com/Ascension-gibson-gibby-major/dp/B0FWTWXK8V" target="_blank" rel="noopener noreferrer">Buy on Amazon</a>
+      </div>
+    </section>
+    <section class="book">
+      <div class="sway">
+        <div class="cover"><div class="imgwrap"><img src="coming-soon.png" alt="Coming soon"></div></div>
+        <h2 class="title">Coming soon</h2>
+        <a class="btn" href="doctorbuffy.png" target="_blank" rel="noopener noreferrer">Sneak peek</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // split title into letters
+    const t = document.getElementById('title');
+    const text = t.textContent;
+    t.textContent = '';
+    [...text].forEach((c, i) => {
+      const s = document.createElement('span');
+      s.className = 'ch'; s.style.setProperty('--i', i);
+      s.textContent = c; s.setAttribute('aria-hidden', 'true');
+      t.appendChild(s);
+    });
+
+    // 3D tilt + glare on covers
+    document.querySelectorAll('.cover').forEach(c => {
+      c.addEventListener('pointermove', e => {
+        const r = c.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+        c.classList.remove('leave');
+        c.style.setProperty('--ry', ((x - .5) * 18) + 'deg');
+        c.style.setProperty('--rx', ((.5 - y) * 18) + 'deg');
+        c.style.setProperty('--gx', (x * 100) + '%');
+        c.style.setProperty('--gy', (y * 100) + '%');
+      });
+      c.addEventListener('pointerleave', () => {
+        c.classList.add('leave');
+        c.style.setProperty('--rx', '0deg'); c.style.setProperty('--ry', '0deg');
+      });
+    });
+
+    // confetti burst from logo
+    document.getElementById('logo').addEventListener('click', e => {
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const r = e.currentTarget.getBoundingClientRect();
+      const ox = r.left + r.width / 2, oy = r.top + r.height / 2;
+      const colors = ['#ffe14d', '#ff6fb1', '#6dffc4', '#fffdf6'];
+      for (let i = 0; i < 44; i++) {
+        const b = document.createElement('div');
+        b.className = 'bit';
+        b.style.background = colors[i % colors.length];
+        b.style.left = ox + 'px'; b.style.top = oy + 'px';
+        document.body.appendChild(b);
+        const a = Math.random() * Math.PI * 2, d = 120 + Math.random() * 220;
+        b.animate([
+          { transform: 'translate(0,0) rotate(0)', opacity: 1 },
+          { transform: `translate(${Math.cos(a) * d}px, ${Math.sin(a) * d - 80}px) rotate(${Math.random() * 720}deg)`, opacity: 1, offset: .6 },
+          { transform: `translate(${Math.cos(a) * d * 1.1}px, ${Math.sin(a) * d + 260}px) rotate(900deg)`, opacity: 0 }
+        ], { duration: 1300 + Math.random() * 500, easing: 'cubic-bezier(.2,.7,.4,1)' }).onfinish = () => b.remove();
+      }
+    });
+
+    // Doctor Duffy flies through every so often, from either side, at a random height
+    (function () {
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const d = document.createElement('img');
+      d.src = 'duffy-fly.gif'; d.alt = ''; d.className = 'duffy';
+      document.body.appendChild(d);
+      const rand = (a, b) => a + Math.random() * (b - a);
+
+      function fly() {
+        const vw = innerWidth, vh = innerHeight;
+        d.style.display = 'block';
+        const w = d.offsetWidth, h = d.offsetHeight;
+        const dir = Math.random() < 0.65 ? 1 : -1;               // 1 = left to right
+        const y0 = rand(0.05, 0.65) * vh, y1 = y0 + rand(-0.2, 0.2) * vh;
+        const steps = 8, frames = [];
+        for (let i = 0; i <= steps; i++) {
+          const t = i / steps;
+          const x = (dir === 1 ? -w : vw) + dir * t * (vw + w);
+          const y = Math.min(Math.max(y0 + (y1 - y0) * t + Math.sin(t * Math.PI * 3) * 0.05 * vh, -h * .1), vh - h * .9);
+          const tilt = -dir * (8 + 6 * Math.sin(t * Math.PI * 3));
+          frames.push({ transform: `translate(${x}px, ${y}px) rotate(${tilt}deg) scaleX(${dir})` });
+        }
+        d.animate(frames, { duration: rand(6500, 9500) * Math.max(0.7, vw / 1400), easing: 'linear' })
+          .onfinish = () => { d.style.display = 'none'; setTimeout(fly, 30000); };
+      }
+      setTimeout(fly, 5000);
+    })();
+  </script>
 </body>
 </html>
